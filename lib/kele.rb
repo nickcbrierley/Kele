@@ -22,4 +22,13 @@ class Kele
         response = self.class.get("#{@base_uri}/mentors/#{mentor_id}/student_availability", headers: { "authorization" => @auth_token })
         @mentor_availability = JSON.parse(response.body)
     end
+    
+    def get_messages(*page)
+        response = self.class.get("#{@base_uri}/message_threads", headers: { "authorization" => @auth_token })
+        @messages = JSON.parse(response.body)
+    end
+    
+    def create_messages(sender, recipient_id, subject, body)
+        response = self.class.post("#{@base_uri}/messages", body: {"sender" => sender, "recipient_id" => recipient_id, "subject" => subject, "stripped-text" => body }, headers: { "authorization" => @auth_token })
+    end
 end
